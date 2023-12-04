@@ -2,7 +2,7 @@ CXX = ccache g++
 OUTPUT_FILE=bin/DeskJS
 
 define INCLUDE
-	include/
+     jsapi/mozjs-122a1
 endef
 
 define LIBUV
@@ -11,10 +11,11 @@ endef
 
 define APP
 	main.cc
+	src/deskjs.cc
 endef
  
 define OBJ
-	include/libv8_monolith.a
+	jsapi/libmozjs-122a1.so
 	libuv/libuv.a
 endef
 
@@ -32,7 +33,8 @@ export APP
 # will output the exectuable to ./bin folder
 build:
 	mkdir -p bin
-	$(CXX) $$APP -I $$INCLUDE -I $$LIBUV -std=c++17 -pthread -o $$OUTPUT_FILE -DV8_COMPRESS_POINTERS $$OBJ -Wl,--no-as-needed -ldl -DV8_ENABLE_SANDBOX
+		$(CXX)  -std=c++17 -I $$INCLUDE -L $$OBJ $$APP -o $$OUTPUT_FILE  -lmozjs-122a1 -lz -lpthread -ldl -DDEBUG 
+
 
 # make uv-threads (or any from examples)
 #$(examples): % : examples/%.cpp
