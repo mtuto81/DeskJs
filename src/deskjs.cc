@@ -1,6 +1,15 @@
 #include <jsapi.h>
 #include <js/Initialization.h>
 #include "Deskjs.hpp"
+#include <js/CompilationAndEvaluation.h>
+#include <js/SourceText.h>
+#include <js/ErrorReport.h>
+#include <js/Exception.h>
+#include <jsfriendapi.h>
+#include <js/Conversions.h>
+#include<js/Object.h>
+
+
 
 
 // Root object
@@ -13,6 +22,12 @@ static JSClass global_class = {
 
 return JS_NewGlobalObject(cx, &global_class,nullptr,JS::FireOnNewGlobalHook,options);
 }
+
+
+// Load a module.
+
+
+
 
 // Helper to read current exception and dump to stderr.
 //
@@ -46,6 +61,8 @@ bool deskjs::Run(bool (*task)(JSContext*),bool initSelfHosting) {
     if (!cx) {
       return false;
     }
+
+
 
 if (initSelfHosting && !JS::InitSelfHostedCode(cx)){
   return false;

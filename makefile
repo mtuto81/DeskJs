@@ -3,6 +3,7 @@ OUTPUT_FILE=bin/DeskJS
 
 define INCLUDE
      jsapi/mozjs-122a1
+	
 endef
 
 define LIBUV
@@ -12,6 +13,7 @@ endef
 define APP
 	main.cc
 	src/deskjs.cc
+	src/util.cpp
 endef
  
 define OBJ
@@ -33,7 +35,7 @@ export APP
 # will output the exectuable to ./bin folder
 build:
 	mkdir -p bin
-		$(CXX)  -std=c++17 -I $$INCLUDE -L $$OBJ $$APP -o $$OUTPUT_FILE  -lmozjs-122a1 -lz -lpthread -ldl -DDEBUG 
+		$(CXX)  -std=c++17 -I  $$INCLUDE  -I usr/include/gtk-3.0 -L $$OBJ $$APP -o $$OUTPUT_FILE  -lmozjs-122a1 `pkg-config --cflags --libs gtk+-3.0` -lgtk-3 -lz -lpthread -ldl -DDEBUG 
 
 
 # make uv-threads (or any from examples)
